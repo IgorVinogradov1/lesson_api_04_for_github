@@ -5,7 +5,8 @@ from helpers import get_file_extension
 from helpers import create_img
 
 
-def fetch_spacex_last_launch(spacex_api_url, folder):
+def fetch_spacex_last_launch(launch_id, folder):
+    spacex_api_url = f'https://api.spacexdata.com/v5/launches/{launch_id}'
     spacex_img_links = []
     try:
         response = requests.get(spacex_api_url, timeout=10)
@@ -31,15 +32,9 @@ def main():
     os.makedirs(folder, mode=0o755, exist_ok=True)
 
     parser = argparse.ArgumentParser(description='Загрузка фото от SpaceX по указанному ID запуска')
-    parser.add_argument('id', nargs='?', default=None, help='Номер запуска (по умолчанию: latest)')
+    parser.add_argument('id', nargs='?', default='latest', help='Номер запуска (по умолчанию: latest)')
     args = parser.parse_args()
-    if args.id:
-        launch_id = args.id
-        spacex_api_url = f'https://api.spacexdata.com/v5/launches/{launch_id}'
-        fetch_spacex_last_launch(spacex_api_url, folder)
-    else:
-        spacex_api_url = 'https://api.spacexdata.com/v5/launches/latest'
-        fetch_spacex_last_launch(spacex_api_url, folder)
+    fetch_spacex_last_launch(args.id, folder)
 
 if __name__ == '__main__':
     main()
