@@ -8,17 +8,21 @@ from dotenv import load_dotenv
 
 def take_images(folder):
     images = []
-    try:
-        files = os.listdir(folder)
-        for filename in files:
-            _, img_ext = os.path.splitext(filename)
-            if img_ext.lower() in ['.png', '.jpg', '.jpeg', '.gif']:
-                img_path = os.path.join(folder, filename)
-                images.append(img_path)
-        return images
-    except Exception as error:
-        print(f'Ошибка: {error}')
-        return []
+    files = os.listdir(folder)
+    for filename in files:
+        _, img_ext = os.path.splitext(filename)
+        if img_ext.lower() in ['.png', '.jpg', '.jpeg', '.gif']:
+            img_path = os.path.join(folder, filename)
+            images.append(img_path)
+    return images
+
+def post_random_photo(bot, channel_id, images, post_interval):
+    while True:
+        random.shuffle(images)
+        for image in images:
+            with open(image, 'rb') as photo_file:
+                bot.send_photo(chat_id=channel_id, photo=photo_file)
+            time.sleep(post_interval)
 
 def main():
     folder = 'images'
@@ -36,16 +40,14 @@ def main():
         with open(user_img, 'rb') as photo_file:
             bot.send_photo(chat_id=channel_id, photo=photo_file)
     else:
-        if take_images(folder):
+        try:
             images = take_images(folder)
-            while True:
-                random.shuffle(images)
-                for image in images:
-                    with open(image, 'rb') as photo_file:
-                        bot.send_photo(chat_id=channel_id, photo=photo_file)
-                    time.sleep(post_interval)
-        else:
-            print('Фотографии отсутсвуют!')
+            if images:
+                post_random_photo(bot, channel_id, images, post_interval)
+            else:
+                print('Фотографии отсутствуют!')
+        except FileNotFoundError:
+            print('Папка "images" отсутствует')
 
 if __name__ == '__main__':
     main()
