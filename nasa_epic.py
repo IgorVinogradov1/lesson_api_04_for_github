@@ -21,8 +21,8 @@ def download_epic_photos(folder):
             for index, url in enumerate(epic_photos_links, start=1):
                 filename = f'nasa_epic_{index}.png'
                 create_img(url, filename, folder)
-    except Exception as error:
-        print(f'Ошибка соединения: {error}')
+    except requests.HTTPError:
+        print('Вы ввели неправильную ссылку или неверный токен!')
 
 def main():
     folder = 'images'
