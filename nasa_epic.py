@@ -10,7 +10,7 @@ def download_epic_photos(folder):
     try:
         payload = {'api_key': nasa_api_spare_key}
         response = requests.get(nasa_epic_api_url, params=payload, timeout=10)
-        if response.status_code != 200:
+        if not response.ok:
             print("NASA API недоступен (скачивание EPIC-фото Земли)")
         else:
             epic_photos_data = response.json()[:5]
