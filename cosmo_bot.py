@@ -33,14 +33,16 @@ def main():
     args = parser.parse_args()
     if args.img:
         user_img = args.img
-        bot.send_photo(chat_id=channel_id, photo=open(user_img, 'rb'))
+        with open(user_img, 'rb') as photo_file:
+            bot.send_photo(chat_id=channel_id, photo=photo_file)
     else:
         if take_images(folder):
             images = take_images(folder)
             while True:
                 random.shuffle(images)
                 for image in images:
-                    bot.send_photo(chat_id=channel_id, photo=open(image, 'rb'))
+                    with open(image, 'rb') as photo_file:
+                        bot.send_photo(chat_id=channel_id, photo=photo_file)
                     time.sleep(post_interval)
         else:
             print('Фотографии отсутсвуют!')
