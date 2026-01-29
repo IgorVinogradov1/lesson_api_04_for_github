@@ -1,5 +1,6 @@
 import os
 import requests
+from pathlib import Path
 from urllib.parse import urlparse, unquote_plus
 
 
@@ -14,5 +15,6 @@ def create_img(url, filename, folder):
     }
     response = requests.get(url, headers=headers)
     response.raise_for_status()
-    with open(f'{folder}/{filename}', 'wb') as file:
+    path = Path(folder) / filename
+    with open(path, 'wb') as file:
         file.write(response.content)
