@@ -1,5 +1,6 @@
 import os
 import requests
+from datetime import datetime
 from helpers import create_img
 
 
@@ -16,7 +17,8 @@ def download_epic_photos(folder):
             PHOTOS_LIMIT = 5
             epic_photos_data = response.json()[:PHOTOS_LIMIT]
             for item in epic_photos_data:
-                year, month, day = item['date'].split()[0].split('-')
+                date_obj = datetime.fromisoformat(item['date'].split()[0].replace('Z', '+00:00'))
+                year, month, day = f"{date_obj:%Y/%m/%d}".split('/')
                 img_url = f'https://api.nasa.gov/EPIC/archive/natural/{year}/{month}/{day}/png/{item['image']}.png?api_key={nasa_api_spare_key}'
                 epic_photos_links.append(img_url)
             for index, url in enumerate(epic_photos_links, start=1):
