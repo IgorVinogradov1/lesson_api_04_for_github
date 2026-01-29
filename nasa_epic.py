@@ -13,7 +13,8 @@ def download_epic_photos(folder):
         if not response.ok:
             print("NASA API недоступен (скачивание EPIC-фото Земли)")
         else:
-            epic_photos_data = response.json()[:5]
+            PHOTOS_LIMIT = 5
+            epic_photos_data = response.json()[:PHOTOS_LIMIT]
             for item in epic_photos_data:
                 year, month, day = item['date'].split()[0].split('-')
                 img_url = f'https://api.nasa.gov/EPIC/archive/natural/{year}/{month}/{day}/png/{item['image']}.png?api_key={nasa_api_spare_key}'
