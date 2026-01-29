@@ -3,7 +3,9 @@ import requests
 from helpers import create_img
 
 
-def download_epic_photos(nasa_api_spare_key, nasa_epic_api_url, folder):
+def download_epic_photos(folder):
+    nasa_api_spare_key = 'DEMO_KEY'
+    nasa_epic_api_url = 'https://api.nasa.gov/EPIC/api/natural/images'   
     epic_photos_links = []
     try:
         payload = {'api_key': nasa_api_spare_key}
@@ -25,9 +27,7 @@ def download_epic_photos(nasa_api_spare_key, nasa_epic_api_url, folder):
 def main():
     folder = 'images'
     os.makedirs(folder, mode=0o755, exist_ok=True)
-    nasa_api_spare_key = 'DEMO_KEY'
-    nasa_epic_api_url = 'https://api.nasa.gov/EPIC/api/natural/images'
-    download_epic_photos(nasa_api_spare_key, nasa_epic_api_url, folder)
+    download_epic_photos(folder)
 
 if __name__ == '__main__':
     main()
