@@ -8,27 +8,25 @@ def download_epic_photos(folder):
     nasa_api_spare_key = 'DEMO_KEY'
     nasa_epic_api_url = 'https://api.nasa.gov/EPIC/api/natural/images'   
     epic_photos_links = []
-    try:
-        payload = {'api_key': nasa_api_spare_key}
-        response = requests.get(nasa_epic_api_url, params=payload, timeout=10)
-        if not response.ok:
-            print("NASA API недоступен (скачивание EPIC-фото Земли)")
-        else:
-            photos_limit = 5
-            epic_photos_data = response.json()[:photos_limit]
-            for item in epic_photos_data:
-                date_obj = datetime.fromisoformat(item['date'].split()[0].replace('Z', '+00:00'))
-                year, month, day = f"{date_obj:%Y/%m/%d}".split('/')
-                url = f'https://api.nasa.gov/EPIC/archive/natural/{year}/{month}/{day}/png/{item["image"]}.png'
-                payload = {'api_key': nasa_api_spare_key}
-                response_img = requests.get(url, params=payload)
-                img_url = response_img.url
-                epic_photos_links.append(img_url)
-            for index, url in enumerate(epic_photos_links, start=1):
-                filename = f'nasa_epic_{index}.png'
-                download_image(url, filename, folder)
-    except requests.HTTPError:
-        print('Вы ввели неправильную ссылку или неверный токен!')
+        
+    payload = {'api_key': nasa_api_spare_key}
+    response = requests.get(nasa_epic_api_url, params=payload, timeout=10)
+    if not response.ok:
+        print("NASA API недоступен (скачивание EPIC-фото Земли)")
+    else:
+        photos_limit = 5
+        epic_photos_data = response.json()[:photos_limit]
+        for item in epic_photos_data:
+            date_obj = datetime.fromisoformat(item['date'].split()[0].replace('Z', '+00:00'))
+            year, month, day = f"{date_obj:%Y/%m/%d}".split('/')
+            url = f'https://api.nasa.gov/EPIC/archive/natural/{year}/{month}/{day}/png/{item["image"]}.png'
+            payload = {'api_key': nasa_api_spare_key}
+            response_img = requests.get(url, params=payload)
+            img_url = response_img.url
+            epic_photos_links.append(img_url)
+        for index, url in enumerate(epic_photos_links, start=1):
+            filename = f'nasa_epic_{index}.png'
+            download_image(url, filename, folder)
 
 def main():
     folder = 'images'
