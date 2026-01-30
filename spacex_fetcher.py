@@ -14,6 +14,7 @@ def fetch_spacex_last_launch(launch_id, folder):
         data = response.json()
     except requests.exceptions.Timeout:
         print('Сервер не отвечает!')
+        return
     spacex_img_links = response.json()['links']['flickr']['original']
     if not spacex_img_links:
         print('По данному запуску SpaceX фото отсутствуют. Справка: [-h]')
@@ -23,7 +24,7 @@ def fetch_spacex_last_launch(launch_id, folder):
             img_ext = get_file_extension(url)
             filename = f'spacex_{index}{img_ext}'
             create_img(url, filename, folder)
-        except Exception as error:
+        except requests.exceptions.RequestException as error:
             print(f'Пропущена ссылка на фото: {url}, ошибка: {error}')
             continue
 
