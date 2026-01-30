@@ -14,8 +14,8 @@ def download_epic_photos(folder):
         if not response.ok:
             print("NASA API недоступен (скачивание EPIC-фото Земли)")
         else:
-            PHOTOS_LIMIT = 5
-            epic_photos_data = response.json()[:PHOTOS_LIMIT]
+            photos_limit = 5
+            epic_photos_data = response.json()[:photos_limit]
             for item in epic_photos_data:
                 date_obj = datetime.fromisoformat(item['date'].split()[0].replace('Z', '+00:00'))
                 year, month, day = f"{date_obj:%Y/%m/%d}".split('/')
