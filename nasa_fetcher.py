@@ -15,7 +15,7 @@ def fetch_nasa_img(nasa_api_key, folder):
             response.raise_for_status()
             nasa_img_data = response.json()
             break
-        except:
+        except requests.exceptions.RequestException:
             continue
     else:
         print("Ключи NASA API не работают!")
