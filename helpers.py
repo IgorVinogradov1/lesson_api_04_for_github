@@ -9,7 +9,7 @@ def get_file_extension(url):
     *others, img_ext = os.path.splitext(full_path)
     return img_ext
 
-def create_img(url, filename, folder):
+def download_image(url, filename, folder):
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36'
     }

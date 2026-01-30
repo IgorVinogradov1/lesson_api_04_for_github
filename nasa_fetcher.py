@@ -2,7 +2,7 @@ import os
 import requests
 from dotenv import load_dotenv
 from helpers import get_file_extension
-from helpers import create_img
+from helpers import download_image
 
 
 def fetch_nasa_img(nasa_api_key, folder):
@@ -27,7 +27,7 @@ def fetch_nasa_img(nasa_api_key, folder):
     for index, url in enumerate(nasa_img_url, start=1):
         img_ext = get_file_extension(url)
         filename = f'nasa_apod_{index}{img_ext}'
-        create_img(url, filename, folder)
+        download_image(url, filename, folder)
 
 def main():
     folder = 'images'

@@ -1,7 +1,7 @@
 import os
 import requests
 from datetime import datetime
-from helpers import create_img
+from helpers import download_image
 
 
 def download_epic_photos(folder):
@@ -26,7 +26,7 @@ def download_epic_photos(folder):
                 epic_photos_links.append(img_url)
             for index, url in enumerate(epic_photos_links, start=1):
                 filename = f'nasa_epic_{index}.png'
-                create_img(url, filename, folder)
+                download_image(url, filename, folder)
     except requests.HTTPError:
         print('Вы ввели неправильную ссылку или неверный токен!')
 
