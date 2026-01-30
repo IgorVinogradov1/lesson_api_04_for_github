@@ -20,9 +20,6 @@ def download_epic_photos(folder):
             date_obj = datetime.fromisoformat(item['date'].split()[0].replace('Z', '+00:00'))
             year, month, day = f"{date_obj:%Y/%m/%d}".split('/')
             url = f'https://api.nasa.gov/EPIC/archive/natural/{year}/{month}/{day}/png/{item["image"]}.png'
-            # payload = {'api_key': nasa_api_spare_key}
-            # response_img = requests.get(url, params=payload)
-            # img_url = response_img.url
             epic_photos_links.append(url)
         for index, url in enumerate(epic_photos_links, start=1):
             filename = f'nasa_epic_{index}.png'
